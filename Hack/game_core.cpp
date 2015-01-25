@@ -883,7 +883,7 @@ void game_core::intro() {
 }
 
 void game_core::outro() {
-		
+	// Test
 }
 
 std::pair<std::string, std::string> game_core::split(const std::string& str) {

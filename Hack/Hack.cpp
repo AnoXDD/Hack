@@ -1,4 +1,4 @@
-// HackGame.cpp : Defines the entry point for the console application.
+// Hack.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
