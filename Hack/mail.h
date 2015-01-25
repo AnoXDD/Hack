@@ -156,6 +156,7 @@ public:
 		read = true;
 		prompt_welcome();
 		prompt_attachment();
+		refresh_detail();
 	}
 };
 

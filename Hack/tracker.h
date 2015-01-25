@@ -24,6 +24,7 @@ private:
 	void init();
 
 	void act(const std::string&, const std::string& = "");
+	void display_all();
 	void refresh_desc();
 	void refresh_info();
 public:
@@ -33,6 +34,9 @@ public:
 	virtual ~tracker() {
 		delete all;
 	}
+
+	// Display the entire story line
+	std::string get_all_story();
 
 	/* Refresh this tracker*/
 	void refresh() {

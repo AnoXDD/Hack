@@ -8,7 +8,6 @@
 #include "stdafx.h"
 
 #include <ctime>
-#include <fstream>
 
 #include "dialog.h"
 #include "mail.h"
@@ -39,11 +38,8 @@ void mail::act(const std::string& name, const std::string& para) {
 			case 1:
 			case 2:
 			case 3: {
-				std::ofstream outfile(dialog::mail::ATTACHMENT_NAME[attachment].c_str());
-				// Test stream validity
-				if (outfile) {
-					outfile << dialog::mail::ATTACHMENT[attachment] << std::endl;
-					outfile.close();
+				bool flag = util::print_file(dialog::mail::ATTACHMENT_NAME[attachment], dialog::mail::ATTACHMENT[attachment]);
+				if (flag) {
 					prompt_info(dialog::info::MAIL_ATTACHMENT_TRANSMITTING);
 					transmit->set_info(dialog::info::MAIL_ATTACHMENT_TRANSMITTED);
 					// File transmission succeeded, disable the attachment
@@ -111,7 +107,7 @@ std::string mail::get_time() {
 
 void mail::refresh_detail() {
 	std::string str;
-	str = "<Delivered to> " + recipient + "\n<Sent from> " + sender + "\n<At> " + current_time + "\n<Status> Delivered" + "\n<Spam Filtered> False\n<Spam Recognized>\n<Attachment ID>" + std::to_string(get_attachment());
+	str = "<Delivered to> " + recipient + "\n<Sent from> " + sender + "\n<At> " + current_time + "\n<Status> Delivered" + "\n<Spam Filtered> False\n<Spam Recognized>\n<Attachment ID> " + std::to_string(get_attachment());
 	detail->set_desc(str);
 }
 

@@ -1,6 +1,6 @@
 /*
  * dialog.h
- * This class contains important text files of this game
+ * This class contains important text files and other utilities of this game
  *  Created on: Mar 17, 2014
  *      Author: Ano
  */
@@ -13,6 +13,18 @@
 #include <vector>
 
 namespace dialog {
+	class counter {
+		/* Count how many lines of abortions/warning/info/plain, etc. have been displayed */
+		static int cmd_line_val;
+	public:
+		/* Return current formatted cmd_line_val
+		 Each return will add cmd_line_val by one 
+		 */
+		static std::string get_line_val() {
+			return "{" + std::to_string(cmd_line_val++) + "}\t";
+		}
+	};
+
 	class warning {
 	public:
 		const static std::string INVALID_EMPTY_STRING;
@@ -28,6 +40,7 @@ namespace dialog {
 		const static std::string ACCOUNT_ACCESS_DENIED_HEADER;
 		const static std::string ANSWER_MATCHED;
 		const static std::string ANSWER_MISMATCHED;
+		const static std::string FILE_STREAM_ERROR;
 		const static std::string INVALID_COMMAND;
 		const static std::string INVALID_PARAMETER;
 		const static std::string MAIL_ATTACHMENT_DOWNLOAD_FAILED;
@@ -56,6 +69,7 @@ namespace dialog {
 		const static std::string ADDRESS_MAIN;
 		const static std::string ADDRESS_UNDEFINED;
 		const static std::string ANSWER_MATCHED;
+		const static std::string ANY_KEY_CONTINUE;
 		const static std::string AUTHENTICATION_PASSED;
 		const static std::string AUTHENTICATION_REQUIRED;
 		const static std::string CHATROOM_ACCESS_DENIED;
@@ -167,7 +181,8 @@ namespace dialog {
 		/* Old and new log file */
 		const static std::string LOG_NEW;
 		const static std::string LOG_OLD;
-		const static std::string OUTRO;
+		const static std::string STORY_FILENAME;
+		// const static std::string OUTRO;
 
 		/* This interval will be read after the content in the "chatroom" is read */
 		const static std::vector<int> CHATROOM_INTERVAL;
@@ -175,12 +190,18 @@ namespace dialog {
 		const static std::vector<std::string> CLYDE_ANSWER;
 		const static std::vector<std::string> CLYDE_QUESTION;
 		const static std::vector<std::string> INTRO;
+		const static std::vector<std::string> OUTRO;
 		/* The ten pieces to submit when Mino accidentally put himself as Echo */
 		const static std::vector<std::string> PASSPHRASE;
 		/* Each single story line should be added after the player has completed the current level */
 		const static std::vector<std::string> STORY;
 	};
 
+}
+
+namespace util {
+	// Output a file, return if print succeeds
+	bool print_file(const std::string&, const std::string&);
 }
 
 void prompt_abortion(const std::string&);

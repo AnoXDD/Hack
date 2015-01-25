@@ -3,24 +3,28 @@ Debug until level 9
 
 011315
 Debug until level 20
-Prob: get_recipient fix: should be able to find the name w/ versatile beginning
+--Prob: get_recipient fix: should be able to find the name w/ versatile beginning
 
 012215
 --Debug until level 30
-Prob: get_recipient still not fixed (problem not discovered)
-Prob: some of the plugins are not transmitted to plugin menu after "Transmit"
+--Prob: get_recipient still not fixed (problem not discovered)
+--Prob: some of the plugins are not transmitted to plugin menu after "Transmit"
 --Todo: install all the plugins by using debug advance_to() 
 --Debug until level 31
 
 012315
 --Debug until level 42
-Prob + solu: run a test to advance to the final level of the state and detect which letters do not have their "delivered/sent" displayed correctly and try to find the issues then
-Prob: display Pluto's email's detail
-Prob: MIA should be closed after the mission (now it is still available after Foxtrot is imprisoned)
+--Prob + solu: run a test to advance to the final level of the state and detect which letters do not have their "delivered/sent" displayed correctly and try to find the issues then
+--Prob: display Pluto's email's detail
+--Prob: MIA should be closed after the mission (now it is still available after Foxtrot is imprisoned)
 Debug: not sure if comm is not accessible while Foxtrot is imprisoned
 --Prob: plugins don't have to be transmitted to complete this level	
 Debug all the levels, no runtime errors
-Todo: write outro()
-Todo: add line code to count how many lines the user has input so far
+--Todo: write outro()
+--Todo: add line code to count how many lines the user has input so far
 Todo: tab autocomplete (see: http://cc.byexamples.com/2008/06/16/gnu-readline-implement-custom-auto-complete/)
 
+012415
+--Todo: outro: congratualtions big font size!!!!
+--Todo: change the password of Jason (code and html);
+Todo: exit + save

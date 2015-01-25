@@ -8,6 +8,7 @@
 #include "stdafx.h"
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <utility>
 
@@ -15,6 +16,8 @@
 #include "dialog.h"
 
 namespace dialog {
+	int counter::cmd_line_val = 1;
+
 	/*	*	*	*	*	*	WARNING	*	*	*	*	*	*/
 	const std::string warning::INVALID_EMPTY_STRING =
 		"Invalid empty input; please try again";
@@ -30,6 +33,8 @@ namespace dialog {
 		"Access to this account denied: ";
 	const std::string abortion::ANSWER_MISMATCHED =
 		"Answer to this question mismatched";
+	const std::string abortion::FILE_STREAM_ERROR =
+		"File cannot be output. Please check local directory";
 	const std::string abortion::INVALID_COMMAND =
 		"Cannot be recognized as a command";
 	const std::string abortion::INVALID_PARAMETER =
@@ -80,6 +85,8 @@ namespace dialog {
 		"#UNDEFINED#";
 	const std::string info::ANSWER_MATCHED =
 		"Answer to this question matched";
+	const std::string info::ANY_KEY_CONTINUE =
+		"Input any character to continue";
 	const std::string info::AUTHENTICATION_PASSED =
 		"Identity authenticated";
 	const std::string info::AUTHENTICATION_REQUIRED =
@@ -343,7 +350,13 @@ namespace dialog {
 		"Foxtrot: Add the tenth and twentieth number in the Fibonacci array started with two 1's. Multiply the sum and the difference between the fifth Mersenne prime and the smallest square larger than 1,000. Then convert the decimal value into hexadecimal format with each letter upper case. "
 		,
 		// #2
-		"<!DOCTYPE html>\n<html>\n<body>\n\n<!-- Debug Information -->\n<!-- Created on Jan. 14th, 2012 -->\n<!-- Author: Jason -->\n<!-- My baby's ten days old today! Feel so Good!!! -->\n\n<div style=\"opacity:0.5;position:absolute;left:50px;width:300px;height:150px;background-color:#40B3DF;text-align:center;\"></div>\n\n<div style=\"font-family:verdana;padding:200px;border-radius:20px;border:10px solid #EE872A;text-align:center;\">\n\n<div style=\"opacity:0.3;position:absolute;left:120px;width:600px;height:200px;background-color:#8AC007;text-align:center;\"></div>\n\n<h3>MACO COMMUNICATION SYSTEM DEBUG ENTRANCE</h3>\n<div style=\"letter-spacing:8px;text-align:center;\">Powered By Anoxic</div>\n<div style=\"color:#43B3DF;\">Menu Sample </div>\n<div><span style=\"background-color:#B4229E;color:#dddddd;\">Link Sample</span></div>\n<div style=\"color:#000200;\">and more...</div>\n\n</div>\n\n</body>\n</html>\n"
+		/* Anecdote: (although nobody's gonna see this)
+		 Right before I start this, I set Jason's password to 20110104, that was before I met another girl
+		 Then when I was debugging just now, I found this date could be something useful (as I did not realize or could not find any at that time)
+		 It is really hard to forget someone
+		 012415 2345
+		 */
+		"<!DOCTYPE html>\n<html>\n<body>\n\n<!-- Debug Information -->\n<!-- Created on Apr. 17th, 2014 -->\n<!-- Author: Jason -->\n<!-- My baby's ten days old today! Feel so Good!!! -->\n\n<div style=\"opacity:0.5;position:absolute;left:50px;width:300px;height:150px;background-color:#40B3DF;text-align:center;\"></div>\n\n<div style=\"font-family:verdana;padding:200px;border-radius:20px;border:10px solid #EE872A;text-align:center;\">\n\n<div style=\"opacity:0.3;position:absolute;left:120px;width:600px;height:200px;background-color:#8AC007;text-align:center;\"></div>\n\n<h3>MACO COMMUNICATION SYSTEM DEBUG ENTRANCE</h3>\n<div style=\"letter-spacing:8px;text-align:center;\">Powered By Anoxic</div>\n<div style=\"color:#43B3DF;\">Menu Sample </div>\n<div><span style=\"background-color:#B4229E;color:#dddddd;\">Link Sample</span></div>\n<div style=\"color:#000200;\">and more...</div>\n\n</div>\n\n</body>\n</html>\n"
 		,
 		// #3
 		"$h02a431oj74cjyh4b40i4j74fh8ied4hi;i4hl4hi0h40bbkf30\n"
@@ -517,7 +530,7 @@ namespace dialog {
 		// #34
 		"\tI am sorry that I cannot reply your last time as fast as before. As you know, the duty of the director of this freaking intelligence department is to supervise those lazy spies to keep decoding messages. Recently it gets tougher to decode those messages and I am under great pressure, too. \n"
 		"\tWorse, even though I had tried my best, the overloaded work forces me to keep working from morning to evening almost without taking a break. I even had to consider changing the appointment that I scheduled with Mrs. Joy who is such a kind and patient teacher that I first knew as a primary school student. Originally I decided to take my daughter there this weekend to ask whether Joy can help Selina with her poor math. I believe Selina will love her and her style of teaching.\n"
-		"\tAs a result, I am really sorry that I cannot play badminton with you this weekend. You see, I am really busy.I cannot be busier. I really hope I can even work while I am sleeping.\n"
+		"\tAs a result, I am really sorry that I cannot play badminton with you this weekend. You see, I am really busy. I cannot be busier. I really hope I can even work while I am sleeping.\n"
 		,
 		// #35
 		"\tI believe it is the time that we re-think our strategies. \n"
@@ -672,10 +685,14 @@ namespace dialog {
 		;
 	const std::string story::LOG_OLD = "No recent activities";
 
-	const std::string story::OUTRO = "Congratulations! If you were really on your own to achieve this, you must see this a milliono times (this sentence is written to talk to myself).\n"
-		"It is 1634 PST @ 110514, on my Math 20C class in UCSD. And I just went back to check the time I have an idea to create such a game, it is 020814, almost nine months ago, although I originally think it won't take such a long time to make it.\n"
-		"This is a game developed completely by myself, Anoxic, with pure interest to develop a game based on console. However, by the time I am writing all these things by myself in Warren Lecture Hall, I am not sure if this game is bug-free. I just want to write something to commemorate such a moment.\n"
-		"Thanks for all the people supporting me to make it, although I know it is only me doing this job :)";
+	const std::string story::STORY_FILENAME = "story.txt";
+
+	// For commemoration
+
+	//const std::string story::OUTRO = "Congratulations! If you were really on your own to achieve this, you must see this a million times (this sentence is written to talk to myself).\n"
+	//	"It is 1634 PST @ 110514, on my Math 20C class in UCSD. And I just went back to check the time I have an idea to create such a game, it is 020814, almost nine months ago, although I originally think it won't take such a long time to make it.\n"
+	//	"This is a game developed completely by myself, Anoxic, with pure interest to develop a game based on console. However, by the time I am writing all these things by myself in Warren Lecture Hall, I am not sure if this game is bug-free. I just want to write something to commemorate such a moment.\n"
+	//	"Thanks for all the people supporting me to make it, although I know it is only me doing this job :)";
 
 
 	const std::vector<int> story::CHATROOM_INTERVAL = {2000, 1000, 500, 500, 7000, 3000, 7000, 10000, 2000, 5000, 5000, 2000, 3000, 2000, 3000, 1000, 500, 3000, 1000, 100, 300, 500, 2000};
@@ -725,6 +742,49 @@ namespace dialog {
 		,
 		// #5
 		"Nice! Now enter anything to start the game."
+	};
+
+	const std::vector<std::string> story::OUTRO = {
+		"\n"
+		". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n"
+		" . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n"
+		". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n"
+		" . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n"
+		// #0
+		"\n\tNow please read the story before carefully (and this is probably the last tricky thing you will need to do), do you find something new again?"
+		,
+		// These is nothing but just for fun
+		"", "", "",
+		// Took me so much fucking time to do this
+		"\n.--------.  .--------.  .--.    .-.  . . . . . . . . . . . .\n"
+		"| -------   | .----. |  |   \\   | | . . . . . . . . . . . .\n"
+		"| |         | |    | |  | |\\ \\  | |  . . . . . . . . . . . .\n"
+		"| |         | |    | |  | | | | | | . . . . . . . . . . . .\n"
+		"| |         | |    | |  | | | | | |  . . . . . . . . . . . .\n"
+		"| \\______   | |____| |  | |  \\ \\| | . . . . . . . . . . . .\n"
+		"\\________/  \\________/  |_|   |___|  . . . . . . . . . . . .\n"
+		"\n"
+		"  .--------.  .--------.  .--------.  .--------.  .--------.   .-.\n"
+		"  | .------   | .----. |  | .----. |  |.-.  .-.|  | .------|   | |\n"
+		"  | |   ___   | |____/ |  | |____| |     |  |     | |______    | |\n"
+		"  | |  |_  |  |  __  __|  |  ____  |     |  |     \\______  |   | |\n"
+		"  | |    | |  | |  \\ \\    | |    | |     |  |            \\ |   |_|\n"
+		"  | |____| |  | |   \\ \\   | |    | |     |  |      ______| |    _\n"
+		"  \\________/  \\_/    \\_\\  \\_/    \\_/     \\__/     \\________/   |_|\n"
+		,
+		// #1
+		"\tCongratulations on your success, because now this is the end of this game. No matter how you finished this game and read this, it probably took you a long time to do so. As for me. "
+		,
+		// #2
+		"\tThe number in the braces counts how many lines this game has processed. You can take a note of this number, and compare to other people who completed this (if any :P). Honestly I never knew the fastest number."
+		// #3
+		"\tI started this game back in January 2014, now it is a year later. During the past year I left my country, China, as sought for knowledge and truth at UCSD. Ironically I am undeclared, having the fourth year programming and writing this game completely developed by myself, without any other codes written by others (exclude the tab autocompletion, nevertheless without which this game still runs well). "
+		,
+		// #4
+		"\tAnd there is supposed to be another sequel for this, but I am not sure if I have time do to this. Anyway, thank you a lot for finishing this game, and my email is guanrunjie@gmail.com"
+		,
+		// #5
+		"\tSincerely, Anoxic"
 	};
 
 	const std::vector<std::string> story::PASSPHRASE = {
@@ -830,8 +890,8 @@ namespace dialog {
 		"\tAlthough Pluto does not explicitly tell you what Split's birthday, you know what it is (June, 11th). And considering the fact that Pluto mentioned that Split is a British, the password should be 1106. It is correct. After checking his email box, you found Split careless and sloppy when you have to wade through piles of spam mail to find what you really need. And after going through all the mails, you found one particularly informative. "
 		,
 		// #21	
-		"\tAlthough Jason seems to have mentioned something important, but you still know nothing personal about Jason. To acquire more information, you downloaded the file in the attachment. You hope to find something in the file or website. But when you open the file, you find it is designed for a company. However, when you look at its source code, you find something really useful. At the head of the source code is the date when the file is created, and Jason commented by the side that \"My baby is ten days old today.\" It is Jan. 4th. \n"
-		"\tYou successfully log in to Jason's account using the password 20110104. And you find the surveillance system under Jason's control menu. However, when you try to disable the surveillance system for Echo, you did not know Echo's exact ID number. Finally, you decided to disable the entire surveillance system."
+		"\tAlthough Jason seems to have mentioned something important, but you still know nothing personal about Jason. To acquire more information, you downloaded the file in the attachment. You hope to find something in the file or website. But when you open the file, you find it is designed for a company. However, when you look at its source code, you find something really useful. At the head of the source code is the date when the file is created, and Jason commented by the side that \"My baby is ten days old today.\" It is Apr. 17th. \n"
+		"\tYou successfully log in to Jason's account using the password 20140407. And you find the surveillance system under Jason's control menu. However, when you try to disable the surveillance system for Echo, you did not know Echo's exact ID number. Finally, you decided to disable the entire surveillance system."
 		,
 		// #22
 		"\tAs soon as you disable the entire surveillance system, you received the letter from Echo."
@@ -917,12 +977,26 @@ namespace dialog {
 
 }
 
+namespace util {
+	bool print_file(const std::string& path, const std::string& content) {
+		std::ofstream outfile(path.c_str());
+		// Test stream validity
+		if (outfile) {
+			outfile << content << std::endl;
+			outfile.close();
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
 
 void prompt_abortion(const std::string& str) {
 	if (str == "")
 		// Do not display empty message
 		return;
-	std::cout << "[ABORT]\t" << str << std::endl;
+	std::cout << dialog::counter::get_line_val() << "[ABORT]\t" << str << std::endl;
 }
 
 void prompt_debug(const std::string& str) {
@@ -949,7 +1023,7 @@ void prompt_info(const std::string& str) {
 	if (str == "")
 		// Do not display empty message
 		return;
-	std::cout << "[INFO]\t" << str << std::endl;
+	std::cout << dialog::counter::get_line_val() << "[INFO]\t" << str << std::endl;
 }
 
 void prompt_plain(const std::string& str) {
@@ -963,11 +1037,11 @@ void prompt_warning(const std::string& str) {
 	if (str == "")
 		// Do not display empty message
 		return;
-	std::cout << "[WARN]\t" << str << std::endl;
+	std::cout << dialog::counter::get_line_val() << "[WARN]\t" << str << std::endl;
 }
 
 void prompt_dir(const std::string& dir) {
-	std::cout << "[DIR]\t" << dir << std::endl;
+	std::cout << dialog::counter::get_line_val() << "[DIR]\t" << dir << std::endl;
 }
 
 void prompt_separator() {
@@ -979,8 +1053,8 @@ std::string prompt_input(const std::string& str) {
 	do {
 		// Transform str so that it can be displayed before [USER] ...
 		if (str != "")
-			std::cout << "\t>>\t" << str << std::endl;
-		std::cout << "[USER]\t>>\t" << std::flush;
+			std::cout << "\t\t>>\t" << str << std::endl;
+		std::cout << dialog::counter::get_line_val() << "[USER]\t>>\t" << std::flush;
 		std::getline(std::cin, ret);
 		// Does not allow empty string
 	} while (ret == "");

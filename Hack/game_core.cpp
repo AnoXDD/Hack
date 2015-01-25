@@ -365,7 +365,12 @@ void game_core::act() {
 		case 46:
 			// The entire story read
 			if (current == story_line) {
-				inc_level();
+				// Print the entire story
+				bool flag = util::print_file(dialog::story::STORY_FILENAME, ((tracker*) story_line)->get_all_story() + dialog::story::STORY[46]);
+				if (flag)
+					inc_level();
+				else
+					prompt_abortion(dialog::abortion::FILE_STREAM_ERROR);
 			}
 		default:
 			break;
@@ -571,7 +576,7 @@ void game_core::develop_at(int lev) {
 		}
 		case 20: {
 			// Jason is now accessible
-			maco->add_para("Jason", "20110104");
+			maco->add_para("Jason", "20140407");
 			// Remove denied access description
 			Jason->set_desc("");
 			Jason->add_cmd("surveil", surveil);
@@ -681,7 +686,7 @@ void game_core::develop_at(int lev) {
 			maco->remove_para("Jason");
 			/* Origianal password
 			 Split: 1106
-			 Jason: 20110104
+			 Jason: 20140407
 			 */
 			// "Change" user
 			Foxtrot->set_info(Echo->get_info());
@@ -734,7 +739,7 @@ void game_core::develop_at(int lev) {
 			((mail*) Mino->find_cmd("inbox")->second->find_cmd("007")->second)->set_attachment(108);
 			// Tricky!
 			maco->add_para("Split", "6011");
-			maco->add_para("Jason", "20110104");
+			maco->add_para("Jason", "20140407");
 			((account*) Clyde)->send("Jason", dialog::mail::CONTENTS[34]);
 			// Set mail as read
 			((mail*) Jason->find_cmd("inbox")->second->find_cmd("001")->second)->set_read(true);
@@ -757,9 +762,8 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 44:
-			// Do nothing
-			break;
 		case 45:
+		case 46:
 			// Do nothing
 			break;
 		default:
@@ -883,7 +887,12 @@ void game_core::intro() {
 }
 
 void game_core::outro() {
-	// Test
+	// Iterate to display the outro info
+	for (std::vector<std::string>::const_iterator it = dialog::story::OUTRO.begin(); it != dialog::story::OUTRO.end(); ++it) {
+		prompt_plain(*it);
+		// Press any key to continue
+		prompt_input(dialog::info::ANY_KEY_CONTINUE);
+	}
 }
 
 std::pair<std::string, std::string> game_core::split(const std::string& str) {

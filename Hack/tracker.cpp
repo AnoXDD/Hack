@@ -25,12 +25,16 @@ void tracker::init() {
 void tracker::act(const std::string& name, const std::string& para) {
 	if (name == "all") {
 		prompt_plain(dialog::story::WELCOME);
-		// Iterate to display story line
-		for (int i = 0; i != level; ++i) {
-			std::string header = "[LEVEL " + std::to_string(i) + "]";
-			prompt_plain(header);
-			prompt_plain(dialog::story::STORY[i]);
-		}
+		this->display_all();
+	}
+}
+
+void tracker::display_all() {
+	// Iterate to display story line
+	for (int i = 0; i != level; ++i) {
+		std::string header = "[LEVEL " + std::to_string(i) + "]";
+		prompt_plain(header);
+		prompt_plain(dialog::story::STORY[i]);
 	}
 }
 
@@ -44,3 +48,14 @@ void tracker::refresh_info() {
 	this->info = dialog::info::LEVEL_DISPLAY + str;
 }
 
+/*	*	*	*	*	*	PUBLIC FUNCTION	*	*	*	*	*	*/
+
+std::string tracker::get_all_story() {
+	std::string ret;
+	// Iterate to process the story line
+	for (int i = 0; i != level; ++i) {
+		ret += dialog::story::STORY[i];
+		ret += "\n";
+	}
+	return ret;
+}
