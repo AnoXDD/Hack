@@ -17,7 +17,9 @@ void outbox::init() {
 	this->set_info(dialog::info::MAILBOX_ALL_MAILS_SENT);
 }
 
-void outbox::interact(menu* m) {
+void outbox::interact(menu* m, std::vector<menu*>* maillist) {
+	// Add to maillist
+	maillist->push_back(m);
 	// Add retrieval command
 	((mail*) m)->add_retrieve();
 	// Index has been incremented inside generate_mail()
@@ -25,10 +27,10 @@ void outbox::interact(menu* m) {
 	this->add_cmd(std::make_pair(index_str, m));
 }
 
-menu* outbox::interact(const std::string& to, const std::string& content) {
+menu* outbox::interact(const std::string& to, const std::string& content, std::vector<menu*>* maillist) {
 	menu* m = this->generate_mail(to, content, this->parent->get_caption());
 	// Format mail content
-	this->interact(m);
+	this->interact(m, maillist);
 	return m;
 }
 

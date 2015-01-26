@@ -10,12 +10,15 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
 #include <utility>
 
 #include "command_catalog.h"
 #include "dialog.h"
 
 namespace dialog {
+	bool print_control::silent_print = false;
+
 	int counter::cmd_line_val = 1;
 
 	/*	*	*	*	*	*	WARNING	*	*	*	*	*	*/
@@ -39,6 +42,9 @@ namespace dialog {
 		"Cannot be recognized as a command";
 	const std::string abortion::INVALID_PARAMETER =
 		"Cannot be recognized as a parameter";
+	const std::string abortion::LOAD_GAME_FAILED =
+		"Archive file corrupted. If you did not modify the game archive, please contact guanrunjie@gmail.com. Setting up a new game now ... \n"
+		"--------------------------------------------------\n";
 	const std::string abortion::MAIL_ATTACHMENT_DOWNLOAD_FAILED =
 		"Mail attachment download failed. Either you have downloaded this file already or there is a file under this directory have the same name. Try to remove any unnecessary file under the game directory in your computer explorer and try again";
 	const std::string abortion::MISSING_PARAMETERS =
@@ -75,6 +81,10 @@ namespace dialog {
 	/*	*	*	*	*	*	INFO	*	*	*	*	*	*/
 	const std::string info::ACCOUNT_HEADER =
 		"Welcome, ";
+	const std::string info::ARCHIVE_FILE_NAME =
+		"archive.bin";
+	const std::string info::ARCHIVE_FILE_NAME_DEBUG =
+		"archive.old";
 	const std::string info::ADAPTER_HEADER =
 		"Adapter v1.0 authorized to Mino";
 	const std::string info::ADAPTER_STATUS =
@@ -105,6 +115,14 @@ namespace dialog {
 		"You are now level ";
 	const std::string info::LEVEL_UP =
 		"Level up! You have triggered a checkpoint";
+	const std::string info::LOAD_GAME_ABORT_CONFIRM =
+		"Do you really want to discard your archive? A new game will be started and your current archive will be overwritten. [y/n]";
+	const std::string info::LOAD_GAME_PROCESSING =
+		"Loading game archive...";
+	const std::string info::LOAD_GAME_PROMPT =
+		"A game archive file is detected. Do you want to read it? [y/n]";
+	const std::string info::LOAD_GAME_SUCCESS =
+		"Game archive imported. Welcome back. ";
 	const std::string info::MAIL_ATTACHED =
 		"#ATTACHMENT#: ";
 	const std::string info::MAIL_ATTACHED_PLUGIN =
@@ -986,25 +1004,49 @@ namespace util {
 			outfile.close();
 			return true;
 		} else {
+			outfile.close();
 			return false;
 		}
+	}
+
+	const std::string read_file(const std::string& path) {
+		std::ifstream infile(path.c_str());
+		std::string line;
+		std::string str = "";
+		// Test stream validity
+		while (std::getline(infile, line)) {
+			str += line;
+		}
+		infile.close();
+		return str;
+	}
+
+	int random_int() {
+		// This should already be the end of the game, so this will not bother random_closing()
+		// Even if it bothers, it doesn't matter
+		srand(time(NULL));
+		return rand();
 	}
 }
 
 
 void prompt_abortion(const std::string& str) {
-	if (str == "")
-		// Do not display empty message
-		return;
-	std::cout << dialog::counter::get_line_val() << "[ABORT]\t" << str << std::endl;
+	if (!dialog::print_control::silent_print) {
+		if (str == "")
+			// Do not display empty message
+			return;
+		std::cout << dialog::counter::get_line_val() << "[ABORT]\t" << str << std::endl;
+	}
 }
 
 void prompt_debug(const std::string& str) {
-	if (str == "")
-		// Do not display empty message
-		return;
-	std::cout << "[-----INTERNAL ERROR-----]: " << str
-		<< std::endl;
+	if (!dialog::print_control::silent_print) {
+		if (str == "")
+			// Do not display empty message
+			return;
+		std::cout << "[-----INTERNAL ERROR-----]: " << str
+			<< std::endl;
+	}
 }
 
 void prompt_help(const std::string& str) {
@@ -1020,10 +1062,12 @@ void prompt_help(const std::string& str) {
 }
 
 void prompt_info(const std::string& str) {
-	if (str == "")
-		// Do not display empty message
-		return;
-	std::cout << dialog::counter::get_line_val() << "[INFO]\t" << str << std::endl;
+	if (!dialog::print_control::silent_print) {
+		if (str == "")
+			// Do not display empty message
+			return;
+		std::cout << dialog::counter::get_line_val() << "[INFO]\t" << str << std::endl;
+	}
 }
 
 void prompt_plain(const std::string& str) {
@@ -1034,14 +1078,17 @@ void prompt_plain(const std::string& str) {
 }
 
 void prompt_warning(const std::string& str) {
-	if (str == "")
-		// Do not display empty message
-		return;
-	std::cout << dialog::counter::get_line_val() << "[WARN]\t" << str << std::endl;
+	if (!dialog::print_control::silent_print) {
+		if (str == "")
+			// Do not display empty message
+			return;
+		std::cout << dialog::counter::get_line_val() << "[WARN]\t" << str << std::endl;
+	}
 }
 
 void prompt_dir(const std::string& dir) {
-	std::cout << dialog::counter::get_line_val() << "[DIR]\t" << dir << std::endl;
+	if (!dialog::print_control::silent_print)
+		std::cout << dialog::counter::get_line_val() << "[DIR]\t" << dir << std::endl;
 }
 
 void prompt_separator() {

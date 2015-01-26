@@ -22,7 +22,8 @@ Debug: not sure if comm is not accessible while Foxtrot is imprisoned
 Debug all the levels, no runtime errors
 --Todo: write outro()
 --Todo: add line code to count how many lines the user has input so far
-Todo: tab autocomplete (see: http://cc.byexamples.com/2008/06/16/gnu-readline-implement-custom-auto-complete/)
+xxTodo: tab autocomplete (see: http://cc.byexamples.com/2008/06/16/gnu-readline-implement-custom-auto-complete/)
+	Bug!
 
 012415
 --Todo: outro: congratualtions big font size!!!!

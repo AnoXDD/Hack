@@ -66,9 +66,6 @@ class plugin: public menu {
 		prompt_abortion(dialog::abortion::PLUGIN_MISSING_PARAMETER);
 	}
 
-	/* Two functions to install and uninstall the plugins */
-	void install_plugin(const std::string& name);
-	void uninstall_plugin(const std::string& name);
 
 	/* Two components to refresh different things */
 	void refresh_display();
@@ -90,10 +87,17 @@ public:
 		delete view;
 	}
 
+	const std::map<std::string, bool> get_table() const {
+		return table;
+	}
+
 	/* DEBUG_MODE only function 
 	 If DEBUG_MODE in game_core.cpp is false, this function will do nothing
 	*/
 	void install_all();
+	/* Two functions to install and uninstall the plugins */
+	void install_plugin(const std::string& name);
+	void uninstall_plugin(const std::string& name);
 
 	/* Add available plugin by unique ID */
 	void add_plugin(const std::string& ID);

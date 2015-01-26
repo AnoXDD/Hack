@@ -1,18 +1,9 @@
-﻿Build started 012515 00:18:10.
+﻿Build started 012515 22:58:44.
      1>Project "D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Hack\Hack.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Application\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Hack.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt account.cpp game_core.cpp inbox.cpp mail.cpp mailbox.cpp outbox.cpp sys.cpp
-         account.cpp
-     1>d:\skydrive\documents\_computer science\c++\files on github\hack\hack\account.cpp(53): warning C4101: 'e' : unreferenced local variable
-         Generating Code...
-         Compiling...
-         sys.cpp
-         outbox.cpp
-         mailbox.cpp
-         mail.cpp
-         inbox.cpp
+         D:\Application\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Hack.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt game_core.cpp
          game_core.cpp
-         Generating Code...
+     1>d:\skydrive\documents\_computer science\c++\files on github\hack\hack\game_core.cpp(1000): warning C4101: 'e' : unreferenced local variable
        Link:
          D:\Application\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.lib" /MACHINE:X86 Debug\account.obj
          Debug\chatroom.obj
@@ -36,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.45
+Time Elapsed 00:00:02.09

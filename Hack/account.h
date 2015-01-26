@@ -118,14 +118,14 @@ public:
 	 Send a letter to others; auto-format
 	 Two accounts must be under the same system to send letters
 	 */
-	void send(const std::string& to, const std::string& content);
+	void send(const std::string& to, const std::string& content, std::vector<menu*>* maillist);
 	/*
 	 Receive a letter from others; auto-format
 	 The 
 	 letter will be automatically labeled as "new"
 	 Account "from" and this account do not have to be under the same system
 	 */
-	void receive(const std::string& from, const std::string& content);
+	void receive(const std::string& from, const std::string& content, std::vector<menu*>* maillist);
 	/* Change the username of current user */
 	void change_name(const std::string&);
 };

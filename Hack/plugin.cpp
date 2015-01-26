@@ -59,6 +59,7 @@ void plugin::install_plugin(const std::string& para) {
 		install->remove_para(para);
 		uninstall->add_para(para, "");
 	}
+	this->refresh_all();
 }
 
 void plugin::uninstall_plugin(const std::string& para) {

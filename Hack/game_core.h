@@ -35,6 +35,30 @@ class game_core {
 	/* End of the game */
 	void outro();
 
+	/* ***************** Game saving machanism ***************** */
+	/* A pointer to store the list of each mail */
+	std::vector<menu*>* maillist;
+	/* Save the game. Return if saving is successful */
+	bool save();
+	/* Load the game. Return if loading is successful */
+	bool load();
+	/* Decrypt the string */
+	const std::string decrypt(const std::string&);
+	/*
+	 Encrypt the string 
+	 The encryption uses XOR. The key is to be generated randomly, and located at the first character of the encrypted string returned.
+	 */
+	const std::string encrypt(const std::string&, char);
+	/* 
+	 Wrap up all the progress that can be saved
+	 Include: 
+	   1) level,
+	   2) how many lines have been printed so far, 
+	   3) status of plugins, 
+	   4) read, time and attachment status of every mail
+	 */
+	const std::string archive();
+
 	/* 
 	 Utility function. Split one string into two by its first space (" ") 
 	 @Return: A pair of split strings if space exists.

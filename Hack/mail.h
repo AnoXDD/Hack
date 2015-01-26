@@ -10,6 +10,7 @@
 
 #include <string>
 
+#include "mailbox.h"
 #include "menu.h"
 
 class mail: public menu {
@@ -45,10 +46,15 @@ class mail: public menu {
 	 Reply and retrieve functions are both disabled by default, and they are not added to functions by default
 	 */
 	menu *unread, *reply, *retrieve;
+	/* Valid attachment vector */
+	std::vector<int> valid_attachment;
 
 	void act(const std::string&, const std::string& = "");
 	void init(const std::string& = "");
 
+	bool is_valid_attachment(int attachment_val) const {
+		return std::find(valid_attachment.begin(), valid_attachment.end(), attachment_val) != valid_attachment.end();
+	}
 	void prompt_attachment();
 
 	/* Return current time */
@@ -77,19 +83,8 @@ public:
 	int get_attachment() const {
 		return attachment;
 	}
-	void set_attachment(int value) {
-		// Test value validity
-		if (value < 0)
-			prompt_debug(dialog::debug::INVALID_MAIL_ATTACHMENT_INDEX);
-		else {
-			attachment = value;
-			if (value == 0)
-				this->remove_cmd("transmit");
-			else
-				this->add_cmd("transmit", transmit);
-		}
-		this->refresh_detail();
-	}
+	/* Return if attach to the mail is successful */
+	bool set_attachment(int value);
 
 	/* Add reply function */
 	void add_reply() {
@@ -149,6 +144,17 @@ public:
 	}
 	void set_sender(const std::string& str) {
 		this->sender = str;
+	}
+
+	/* Timestamp manipulation */
+	/* Get the timestamp, used for saving the game process */
+	const std::string get_timestamp() const {
+		return this->current_time;
+	}
+	/* Set the time the mail is processed, used for loading the game */
+	void set_timestamp(const std::string& str) {
+		current_time = str;
+		refresh_detail();
 	}
 
 	void entered() {

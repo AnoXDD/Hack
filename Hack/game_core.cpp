@@ -8,6 +8,7 @@
 
 #include "stdafx.h"
 
+#include <exception>
 #include <string>
 #include <utility>
 #include <Windows.h>
@@ -380,7 +381,7 @@ void game_core::act() {
 void game_core::develop_at(int lev) {
 	switch (lev) {
 		case -1:
-			((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[0]);
+			((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[0], maillist);
 			// Detail modify
 			((mail*) main_inbox->find_cmd("001")->second)->set_recipient(dialog::info::ADDRESS_MAIN);
 			// Hide Pluto's address
@@ -401,7 +402,7 @@ void game_core::develop_at(int lev) {
 			menu* mino_outbox = Mino->find_cmd("outbox")->second;
 			// Generate the resignation letter
 			menu* new_mail = ((outbox*) mino_outbox)->generate_mail("Fizz", dialog::mail::CONTENTS[1], "Mino");
-			((outbox*) mino_outbox)->interact(new_mail);
+			((outbox*) mino_outbox)->interact(new_mail, maillist);
 			// Enable retrieve
 			((mail*) new_mail)->enable_retrieve();
 			break;
@@ -411,7 +412,7 @@ void game_core::develop_at(int lev) {
 			comm->add_cmd("Fizz", Fizz);
 			// Set denied access to this account
 			Fizz->set_desc(dialog::abortion::ACCOUNT_ACCESS_DENIED_HEADER + dialog::abortion::ACCOUNT_ACCESS_DENIED_ERROR_UNKNOWN);
-			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[2]);
+			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[2], maillist);
 			// Find the mail Mino has just received
 			menu* new_mail = Mino->find_cmd("inbox")->second->find_cmd("001")->second;
 			// Enable reply 
@@ -420,14 +421,14 @@ void game_core::develop_at(int lev) {
 		}
 		case 2: {
 			// Send letter
-			((account*) Mino)->send("Fizz", dialog::mail::CONTENTS[3]);
+			((account*) Mino)->send("Fizz", dialog::mail::CONTENTS[3], maillist);
 			// Set mail read for Fizz
 			((mail*) Fizz->find_cmd("inbox")->second->find_cmd("001")->second)->set_read(true);
 			break;
 		}
 		case 3: {
 			// Receive a letter from Pluto
-			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[4]);
+			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[4], maillist);
 			// Detail modify
 			((mail*) new_mail)->set_recipient(dialog::info::ADDRESS_MAIN);
 			// Hide Pluto's address
@@ -437,7 +438,7 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 4: {
-			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[5]);
+			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[5], maillist);
 			// Plugin attached
 			((mail*) Mino->find_cmd("inbox")->second->find_cmd("002")->second)->set_attachment(102);
 			break;
@@ -455,12 +456,12 @@ void game_core::develop_at(int lev) {
 			// Set denied access to Split
 			Split->set_desc(dialog::abortion::ACCOUNT_ACCESS_DENIED_HEADER + dialog::abortion::ACCOUNT_ACCESS_DENIED_ERROR_UNKNOWN);
 			// Welcome mail
-			((account*) Split)->send("Foxtrot", dialog::mail::CONTENTS[6]);
+			((account*) Split)->send("Foxtrot", dialog::mail::CONTENTS[6], maillist);
 			break;
 		}
 		case 6: {
 			// Feedback from Fizz
-			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[7]);
+			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[7], maillist);
 			break;
 		}
 		case 7: {
@@ -474,12 +475,12 @@ void game_core::develop_at(int lev) {
 		case 8: {
 			// New character appears
 			maco->add_cmd("Echo", Echo);
-			((account*) Echo)->send("Foxtrot", dialog::mail::CONTENTS[8]);
+			((account*) Echo)->send("Foxtrot", dialog::mail::CONTENTS[8], maillist);
 			break;
 		}
 		case 9: {
 			Split->set_desc(dialog::abortion::ACCOUNT_ACCESS_DENIED_HEADER + dialog::abortion::ACCOUNT_ACCESS_DENIED_ERROR_UNKNOWN);
-			((account*) Split)->send("Foxtrot", dialog::mail::CONTENTS[9]);
+			((account*) Split)->send("Foxtrot", dialog::mail::CONTENTS[9], maillist);
 			((mail*) Foxtrot->find_cmd("inbox")->second->find_cmd("003")->second)->set_attachment(104);
 			break;
 		}
@@ -490,7 +491,7 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 11: {
-			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[10]);
+			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[10], maillist);
 			// Detail modify
 			((mail*) new_mail)->set_recipient(dialog::info::ADDRESS_MAIN);
 			// Hide Pluto's address
@@ -500,7 +501,7 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 12: {
-			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[11]);
+			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[11], maillist);
 			((mail*) Mino->find_cmd("inbox")->second->find_cmd("004")->second)->set_attachment(103);
 			break;
 		}
@@ -511,13 +512,13 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 14: {
-			((account*) Mino)->send("Fizz", dialog::mail::CONTENTS[12]);
+			((account*) Mino)->send("Fizz", dialog::mail::CONTENTS[12], maillist);
 			((mail*) Fizz->find_cmd("inbox")->second->find_cmd("002")->second)->set_read(true);
 			// New account added
 			maco->add_cmd("Tyler", Tyler);
 			// Set denied access to this account
 			Tyler->set_desc(dialog::abortion::ACCOUNT_ACCESS_DENIED_HEADER + dialog::abortion::ACCOUNT_ACCESS_DENIED_ERROR_UNKNOWN);
-			((account*) Tyler)->send("Foxtrot", dialog::mail::CONTENTS[13]);
+			((account*) Tyler)->send("Foxtrot", dialog::mail::CONTENTS[13], maillist);
 			((mail*) (Foxtrot->find_cmd("inbox")->second->find_cmd("004")->second))->set_attachment(1);
 			break;
 		}
@@ -532,11 +533,11 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 17: {
-			((account*) Tyler)->send("Foxtrot", dialog::mail::CONTENTS[14]);
+			((account*) Tyler)->send("Foxtrot", dialog::mail::CONTENTS[14], maillist);
 			break;
 		}
 		case 18: {
-			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[15]);
+			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[15], maillist);
 			// Detail modify
 			((mail*) new_mail)->set_recipient(dialog::info::ADDRESS_MAIN);
 			// Hide Pluto's address
@@ -564,12 +565,12 @@ void game_core::develop_at(int lev) {
 			it2 = dialog::mail::SPAM_SENDER.begin();
 			it3 = dialog::mail::SPAM_ADDRESS.begin();
 			for (; it1 != dialog::mail::SPAM.end(); ++it1, ++it2) {
-				menu* new_mail = ((inbox*) Split->find_cmd("inbox")->second)->interact(*it2, *it1);
+				menu* new_mail = ((inbox*) Split->find_cmd("inbox")->second)->interact(*it2, *it1, maillist);
 				// Modify the mail address of sender
 				((mail*) new_mail)->set_sender(*it3);
 			}
 			// Send letter to Split
-			((account*) Jason)->send("Split", dialog::mail::CONTENTS[16]);
+			((account*) Jason)->send("Split", dialog::mail::CONTENTS[16], maillist);
 			// Set attachment
 			((mail*) Split->find_cmd("inbox")->second->find_cmd("007")->second)->set_attachment(2);
 			break;
@@ -583,7 +584,7 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 21: {
-			((account*) Echo)->send("Foxtrot", dialog::mail::CONTENTS[17]);
+			((account*) Echo)->send("Foxtrot", dialog::mail::CONTENTS[17], maillist);
 			break;
 		}
 		case 22: {
@@ -593,7 +594,7 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 23: {
-			((account*) Echo)->send("Foxtrot", dialog::mail::CONTENTS[18]);
+			((account*) Echo)->send("Foxtrot", dialog::mail::CONTENTS[18], maillist);
 			break;
 		}
 		case 24: {
@@ -604,7 +605,7 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 25: {
-			((account*) Jason)->send("Foxtrot", dialog::mail::CONTENTS[19]);
+			((account*) Jason)->send("Foxtrot", dialog::mail::CONTENTS[19], maillist);
 			break;
 		}
 		case 26: {
@@ -615,10 +616,10 @@ void game_core::develop_at(int lev) {
 			break;
 		}
 		case 27: {
-			((account*) Mino)->send("Fizz", dialog::mail::CONTENTS[20]);
+			((account*) Mino)->send("Fizz", dialog::mail::CONTENTS[20], maillist);
 			((mail*) Fizz->find_cmd("inbox")->second->find_cmd("003")->second)->set_read(true);
 			// "immediate" reply
-			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[21]);
+			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[21], maillist);
 			// Enable reply for the letter Jason just sent
 			((mail*) Foxtrot->find_cmd("inbox")->second->find_cmd("008")->second)->enable_reply();
 			break;
@@ -629,9 +630,9 @@ void game_core::develop_at(int lev) {
 		}
 		case 29: {
 			// Reply to the mail
-			((account*) Foxtrot)->send("Jason", dialog::mail::CONTENTS[22]);
+			((account*) Foxtrot)->send("Jason", dialog::mail::CONTENTS[22], maillist);
 			// "immediate" reply
-			((account*) Jason)->send("Foxtrot", dialog::mail::CONTENTS[23]);
+			((account*) Jason)->send("Foxtrot", dialog::mail::CONTENTS[23], maillist);
 			((mail*) Foxtrot->find_cmd("inbox")->second->find_cmd("009")->second)->set_attachment(106);
 			break;
 		}
@@ -650,14 +651,14 @@ void game_core::develop_at(int lev) {
 		}
 		case 32: {
 			// Reply to the mail
-			((outbox*) Foxtrot->find_cmd("outbox")->second)->interact("Jason", dialog::mail::CONTENTS[24]);
+			((outbox*) Foxtrot->find_cmd("outbox")->second)->interact("Jason", dialog::mail::CONTENTS[24], maillist);
 			// Sending mail unsuccessfully
-			((account*) Foxtrot)->receive("MACO System Group", dialog::mail::CONTENTS[25]);
+			((account*) Foxtrot)->receive("MACO System Group", dialog::mail::CONTENTS[25], maillist);
 			break;
 		}
 		case 33: {
 			// Explanatory mail from Echo
-			((account*) Echo)->send("Foxtrot", dialog::mail::CONTENTS[26]);
+			((account*) Echo)->send("Foxtrot", dialog::mail::CONTENTS[26], maillist);
 			((mail*) Foxtrot->find_cmd("inbox")->second->find_cmd("011")->second)->set_attachment(107);
 			break;
 		}
@@ -666,14 +667,14 @@ void game_core::develop_at(int lev) {
 			((plugin*) extension)->add_plugin("14FC6");
 			// Faked ID approved at this moment
 			Bandit->set_access_ID("14FC6");
-			((account*) Bandit)->receive("the Department of Human Resource", dialog::mail::CONTENTS[27]);
+			((account*) Bandit)->receive("the Department of Human Resource", dialog::mail::CONTENTS[27], maillist);
 			// Set mail as read
 			((mail*) Bandit->find_cmd("inbox")->second->find_cmd("001")->second)->set_read(true);
 			break;
 		}
 		case 35: {
 			// Pluto's late-arrived mail
-			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[28]);
+			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[28], maillist);
 			pluto_blur((mail*) new_mail);
 			break;
 		}
@@ -695,7 +696,7 @@ void game_core::develop_at(int lev) {
 		}
 		case 37: {
 			// Pluto's aplogizing letter
-			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[29]);
+			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[29], maillist);
 			pluto_blur((mail*) new_mail);
 			break;
 		}
@@ -705,16 +706,17 @@ void game_core::develop_at(int lev) {
 		}
 		case 39: {
 			// Pluto's explanative letter
-			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[30]);
+			menu* new_mail = ((inbox*) main_inbox)->interact("Pluto", dialog::mail::CONTENTS[30], maillist);
 			pluto_blur((mail*) new_mail);
 			break;
 		}
 		case 40: {
 			// Generate a new mail with recipient modified
 			menu* new_mail = ((inbox*) Foxtrot->find_cmd("inbox")->second)->generate_mail("Jason", dialog::mail::CONTENTS[31], "Echo");
+			// But the recipient address is still the same
 			// Set attachment
 			((mail*) new_mail)->set_attachment(3);
-			((inbox*) Foxtrot->find_cmd("inbox")->second)->interact(new_mail);
+			((inbox*) Foxtrot->find_cmd("inbox")->second)->interact(new_mail, maillist);
 			// Add new menu command
 			Foxtrot->add_cmd("submit", submit);
 			break;
@@ -729,18 +731,18 @@ void game_core::develop_at(int lev) {
 			// Removing illegible plugin
 			((plugin*) extension)->remove_plugin("14FC6");
 			// Send exciting letter
-			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[32]);
+			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[32], maillist);
 			break;
 		}
 		case 42: {
 			// Send another letter
-			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[33]);
+			((account*) Fizz)->send("Mino", dialog::mail::CONTENTS[33], maillist);
 			// New plugin
 			((mail*) Mino->find_cmd("inbox")->second->find_cmd("007")->second)->set_attachment(108);
 			// Tricky!
 			maco->add_para("Split", "6011");
 			maco->add_para("Jason", "20140407");
-			((account*) Clyde)->send("Jason", dialog::mail::CONTENTS[34]);
+			((account*) Clyde)->send("Jason", dialog::mail::CONTENTS[34], maillist);
 			// Set mail as read
 			((mail*) Jason->find_cmd("inbox")->second->find_cmd("001")->second)->set_read(true);
 			break;
@@ -756,7 +758,7 @@ void game_core::develop_at(int lev) {
 			maco->add_cmd("Clyde", Clyde);
 			// I don't believe anyone can guess this out lol :)
 			maco->add_para("Clyde", "c4rycn8o7cynofcyno8q2cyry7q2noo3r7qc2rcnyq32r327");
-			((outbox*) Clyde->find_cmd("outbox")->second)->interact("Van", dialog::mail::CONTENTS[35]);
+			((outbox*) Clyde->find_cmd("outbox")->second)->interact("Van", dialog::mail::CONTENTS[35], maillist);
 			// Add reset limit
 			((account*) Clyde)->set_reset_lim(3);
 			break;
@@ -776,11 +778,17 @@ void game_core::inc_level() {
 	develop_at(level);
 	// Refresh the tracker after level is incremented
 	((tracker*) story_line)->refresh();
+	// Save game progress
+	save();
 	++level;
 }
 
 void game_core::init() {
 	level = -1;
+	
+	dialog::counter::set_cmd_line_val(0);
+
+	maillist = new std::vector < menu* >();
 
 	main_menu = new menu("Mino");
 	main_menu->set_info(dialog::info::ADAPTER_HEADER);
@@ -832,7 +840,7 @@ void game_core::init() {
 	comm->add_cmd("Anoxic", Pluto);
 	comm->add_para("Anoxic", "password");
 	Pluto->set_desc("AH-o, You have find something really amazing! Contact me for reward :P");
-	((inbox*) Pluto->find_cmd("inbox")->second)->interact("Anoxic", "My email address is guanrunjie@gmail.com! This is my first game anyway. Thanks for support!");
+	((inbox*) Pluto->find_cmd("inbox")->second)->interact("Anoxic", "My email address is guanrunjie@gmail.com! This is my first game anyway. Thanks for support!", maillist);
 }
 
 void game_core::intro() {
@@ -893,6 +901,156 @@ void game_core::outro() {
 		// Press any key to continue
 		prompt_input(dialog::info::ANY_KEY_CONTINUE);
 	}
+}
+
+bool game_core::save() {
+	// Get the archive string
+	std::string arch = this->archive();
+	// Generate a random key
+	char key = (char) (util::random_int() % 123 + 123);
+	// Encrypt the archive file
+	std::string enc = this->encrypt(arch, key);
+	// Store the key at the beginning of the file
+	enc = key + enc;
+	bool flag = util::print_file(dialog::info::ARCHIVE_FILE_NAME, enc);
+	return flag;
+}
+
+bool game_core::load() {
+	// Get the archive file
+	std::string arch = util::read_file(dialog::info::ARCHIVE_FILE_NAME);
+	if (arch.length() < 2)
+		// Invalid archive file
+		return false;
+	// Decrypt the file
+	arch = this->decrypt(arch);
+	// Start silent input to avoid screen spam
+	dialog::print_control::silent_print = true;
+	std::string::size_type index = 0;
+	try {
+		// Level
+		index = arch.find_first_of("|");
+		int level = atoi(arch.substr(0, index).c_str());
+		this->advance_to(level);
+		// Lines
+		int lines = atoi(arch.substr(index + 2, arch.find_first_of("|", index + 1)-2).c_str());
+		index = arch.find_first_of("|", index + 1);
+		dialog::counter::set_cmd_line_val(lines);
+		// Plugins
+		int i = index + 1;
+		index = arch.find_first_of("|", index + 1);
+		std::map<std::string, bool> table = std::map<std::string, bool>();
+		// The size of each group (with plugin name (5) and status of installation (1)) is 6
+		for (; i != index; i += 6) {
+			std::string name = arch.substr(i, 5);
+			char ch = arch[i + 5];
+			bool flag;
+			if (ch == '1') {
+				flag = true;
+			} else if (ch == '0') {
+				flag = false;
+			} else {
+				dialog::print_control::silent_print = false;
+				// Invalid token
+				return false;
+			}
+			// Add to table
+			table[name] = flag;
+		}
+		// Iterate to restore the plugin status
+		for (std::map<std::string, bool>::iterator it = table.begin(); it != table.end(); ++it) {
+			if (it->second)
+				((plugin*) extension)->install_plugin(it->first);
+			// Plugin is uninstalled by default
+		}
+		// Mail, iterate till the end of the file
+		std::vector<menu*>::iterator it = maillist->begin();
+		do {
+			// Read status
+			char ch = arch[++index];
+			bool flag;
+			if (ch == '1') {
+				flag = true;
+			} else if (ch == '0') {
+				flag = false;
+			} else {
+				// Invalid token
+				dialog::print_control::silent_print = false;
+				return false;
+			}
+			// Position of the first character of time stamp
+			i = arch.find_first_of("'", index + 3);
+			std::string time_stamp = arch.substr(index + 2, i - index - 2);
+			// Locate the attachment
+			std::string attachment;
+			index = arch.find_first_of("|", index + 1);
+			attachment = arch.substr(i + 1, index);
+			int attach_val = atoi(attachment.c_str());
+			// Process the mail in maillist
+			((mail*) *it)->set_read(flag);
+			((mail*) *it)->set_timestamp(time_stamp);
+			if (!((mail*) *it)->set_attachment(attach_val)) {
+				// Invalid attachment index
+				dialog::print_control::silent_print = false;
+				return false;
+			}
+			// Process another mail
+			++it;
+		} while (index != std::string::npos);
+	} catch (std::exception& e) {
+		// Any exceptions, include invalid group count, number conversion, and mail vector out of bound
+		dialog::print_control::silent_print = false;
+		return false;
+	}
+	dialog::print_control::silent_print = false;
+	return true;
+}
+
+const std::string game_core::decrypt(const std::string& str) {
+	if (str.length() <= 2)
+		// Not a valid string
+		return "";
+	// The first character is the key
+	char key = str[0];
+	// The process of decryption and encyption is the same
+	return this->encrypt(str.substr(1), key);
+}
+
+const std::string game_core::encrypt(const std::string& str, char key) {
+	std::string ret = "";
+	for (int i = 0; i != str.length(); ++i)
+		ret += str[i] ^ ((int) key);// +i) % 255;
+	return ret;
+}
+
+const std::string game_core::archive() {
+	std::string ret;
+	// Level
+	ret += std::to_string(level);
+	ret += "|";
+	// Lines that have been printed
+	ret += dialog::counter::get_line_val();
+	ret += "|";
+	// Plugin
+	const std::map<std::string, bool> plugin_table = ((plugin*) extension)->get_table();
+	for (std::map<std::string, bool>::const_iterator it = plugin_table.cbegin(); it != plugin_table.cend(); ++it) {
+		// The name of the plugin
+		ret += it->first;
+		// Status of installation
+		ret += (it->second) ? "1" : "0";
+	}
+	// Mail
+	for (std::vector<menu*>::iterator it = maillist->begin(); it != maillist->end(); ++it) {
+		// Separator, so that the end of file won't have it
+		ret += "|";
+		// Read status
+		ret += ((mail*) *it)->is_read() ? "1" : "0";
+		// Timestamp
+		ret += "'" + ((mail*) *it)->get_timestamp() + "'";
+		// Attachment
+		ret += std::to_string(((mail*) *it)->get_attachment());
+	}
+	return ret;
 }
 
 std::pair<std::string, std::string> game_core::split(const std::string& str) {
@@ -978,14 +1136,54 @@ void game_core::advance_to(int lev) {
 }
 
 void game_core::start_game() {
-	this->intro();
+	// Test if loading the game available
+	/* If load succeeds, flag then equals true*/
+	bool loaded = false;
+	if (util::read_file(dialog::info::ARCHIVE_FILE_NAME) != "") {
+		// No one wants to give up their game progress
+		while (true) {
+			prompt_info(dialog::info::LOAD_GAME_PROMPT);
+			if (prompt_input()== "y") {
+				prompt_info(dialog::info::LOAD_GAME_PROCESSING);
+				if (load()) {
+					prompt_info(dialog::info::LOAD_GAME_SUCCESS);
+					loaded = true;
+					break;
+				} else {
+					prompt_abortion(dialog::abortion::LOAD_GAME_FAILED);
+					// Rename the archive file for debug 
+					rename(dialog::info::ARCHIVE_FILE_NAME.c_str(), dialog::info::ARCHIVE_FILE_NAME_DEBUG.c_str());
+					// Delete the archive file, if remove above fails, I don't care
+					remove(dialog::info::ARCHIVE_FILE_NAME.c_str());
+					loaded = false;
+					break;
+				}
+			} else {
+				// The user doesn't want to load the file, ask for confirmation
+				prompt_info(dialog::info::LOAD_GAME_ABORT_CONFIRM);
+				// If user inputs "y", this loop will exit
+				if (prompt_input() == "y") {
+					prompt_plain("\n");
+					loaded = false;
+					break;
+				}
+				// Else the loop start over
+			}
+		}
+	}
+	if (!loaded) {
+		// Start a new game
+		this->init();
+		this->intro();
+	}
+	std::string ret_str = "";
 	current = main_menu;
 	while (level <= MAX_LEVEL) {
 		// Make it real for server communication
 		this->act();
 		prompt_separator();
 		prompt_plain("\n");
-		std::string ret_str = prompt_input(current->get_dir());
+		ret_str = prompt_input(current->get_dir());
 		std::pair<std::string, std::string> split = this->split(ret_str);
 		Sleep(SLEEP_DELAY);
 		menu* tmp = current->enter(split.first, split.second);

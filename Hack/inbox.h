@@ -23,13 +23,13 @@ public:
 	 Receive a "mail" directly
 	 This pointer to menu should be a pointer to "mail".
 	 */
-	void interact(menu* m);
+	void interact(menu* m, std::vector<menu*>* maillist);
 	/*
 	 Receive a letter from others; auto-format
 	 The new letter will be automatically labeled as "new"
 	 Return the pointer to the newly created mail object
 	 */
-	menu* interact(const std::string& who, const std::string& content);
+	menu* interact(const std::string& who, const std::string& content, std::vector<menu*>* maillist);
 	/*
 	 Refresh the mailbox
 	 If any major changes occur, do not forget to make corresponding changes to another "mailbox"

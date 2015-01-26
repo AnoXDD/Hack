@@ -13,6 +13,12 @@
 #include <vector>
 
 namespace dialog {
+	/* Control the command print */
+	class print_control {
+	public:
+		/* If true, no input related to cmd_line_val will be print, thus cmd_line_val stops counting */
+		static bool silent_print;
+	};
 	class counter {
 		/* Count how many lines of abortions/warning/info/plain, etc. have been displayed */
 		static int cmd_line_val;
@@ -22,6 +28,9 @@ namespace dialog {
 		 */
 		static std::string get_line_val() {
 			return "{" + std::to_string(cmd_line_val++) + "}\t";
+		}
+		static void set_cmd_line_val(const int& val) {
+			cmd_line_val = val;
 		}
 	};
 
@@ -43,6 +52,7 @@ namespace dialog {
 		const static std::string FILE_STREAM_ERROR;
 		const static std::string INVALID_COMMAND;
 		const static std::string INVALID_PARAMETER;
+		const static std::string LOAD_GAME_FAILED;
 		const static std::string MAIL_ATTACHMENT_DOWNLOAD_FAILED;
 		const static std::string MISSING_PARAMETERS;
 		const static std::string PLUGIN_INVALID_PARAMETER;
@@ -64,6 +74,8 @@ namespace dialog {
 	class info {
 	public:
 		const static std::string ACCOUNT_HEADER;
+		const static std::string ARCHIVE_FILE_NAME;
+		const static std::string ARCHIVE_FILE_NAME_DEBUG;
 		const static std::string ADAPTER_HEADER;
 		const static std::string ADAPTER_STATUS;
 		const static std::string ADDRESS_MAIN;
@@ -79,6 +91,10 @@ namespace dialog {
 		const static std::string HELP_FILE_HEADER;
 		const static std::string LEVEL_DISPLAY;
 		const static std::string LEVEL_UP;
+		const static std::string LOAD_GAME_ABORT_CONFIRM;
+		const static std::string LOAD_GAME_PROCESSING;
+		const static std::string LOAD_GAME_PROMPT;
+		const static std::string LOAD_GAME_SUCCESS;
 		const static std::string MAIL_ATTACHED;
 		const static std::string MAIL_ATTACHED_PLUGIN;
 		const static std::string MAIL_ATTACHMENT_TRANSMITTED;
@@ -201,7 +217,11 @@ namespace dialog {
 
 namespace util {
 	// Output a file, return if print succeeds
-	bool print_file(const std::string&, const std::string&);
+	bool print_file(const std::string& path, const std::string& content);
+	// Read a file, return the string of the file, an empty string if fails
+	const std::string read_file(const std::string& path);
+	// Generate a random number
+	int random_int();
 }
 
 void prompt_abortion(const std::string&);

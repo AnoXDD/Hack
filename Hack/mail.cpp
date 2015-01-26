@@ -12,9 +12,11 @@
 #include "dialog.h"
 #include "mail.h"
 
+/*	*	*	*	*	*	PRIVATE FUNCTION	*	*	*	*	*	*/
+
 void mail::act(const std::string& name, const std::string& para) {
 	if (name == "unread") {
-		read = false;
+		this->set_read(false);
 	} else if (name == "reply") {
 		if (this->is_reply_enabled()) {
 			if (replied)
@@ -72,6 +74,7 @@ void mail::act(const std::string& name, const std::string& para) {
 }
 
 void mail::init(const std::string& str) {
+	valid_attachment = {0,1, 2, 3, 100, 101, 102, 103, 104, 105, 106, 107, 108};
 	// Time fixed
 	current_time = get_time();
 	detail = new menu(this, "detail");
@@ -111,3 +114,22 @@ void mail::refresh_detail() {
 	detail->set_desc(str);
 }
 
+/*	*	*	*	*	*	PUBLIC FUNCTION		*	*	*	*	*	*/
+
+bool mail::set_attachment(int value) {
+	// Test value validity
+	if (value < 0) {
+		prompt_debug(dialog::debug::INVALID_MAIL_ATTACHMENT_INDEX);
+		return false;
+	} else if (!is_valid_attachment(value)) {
+		return false;
+	} else {
+		attachment = value;
+		if (value == 0)
+			this->remove_cmd("transmit");
+		else
+			this->add_cmd("transmit", transmit);
+	}
+	this->refresh_detail();
+	return true;
+}

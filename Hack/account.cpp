@@ -16,7 +16,7 @@
 
 using namespace dialog;
 
-/* 			* PRIVATE FUNCTIONS * 			*/
+/*	*	*	*	*	*	PRIVATE FUNCTION	*	*	*	*	*	*/
 
 void account::act(const std::string& name, const std::string& para) {
 	if (name == "submit") {
@@ -100,7 +100,7 @@ int account::reset() {
 	}
 }
 
-/*			* PUBLIC FUNCTIONS *			*/
+/*	*	*	*	*	*	PUBLIC FUNCTION		*	*	*	*	*	*/
 
 void account::attempt() {
 	// Check whether it is possible to reset
@@ -131,18 +131,22 @@ void account::entered() {
 	this->prompt_welcome();
 }
 
-void account::send(const std::string& to, const std::string& content) {
-	((mailbox*) out)->interact(to, content);
+void account::send(const std::string& to, const std::string& content, std::vector<menu*>* maillist) {
+	menu* ret = ((mailbox*) out)->interact(to, content, maillist);
+	// Add to maillist
+	maillist->push_back(ret);
 	if (this->parent->has_cmd(to)) {
 		account* rec = (account*) this->parent->find_cmd(to)->second;
-		rec->receive(this->caption, content);
+		rec->receive(this->caption, content, maillist);
 	} else {
 		prompt_debug(to + debug::MAIL_USER_NOT_DEFINED + user);
 	}
 }
 
-void account::receive(const std::string& from, const std::string& content) {
-	((mailbox*) in)->interact(from, content);
+void account::receive(const std::string& from, const std::string& content, std::vector<menu*>* maillist) {
+	menu* ret = ((mailbox*) in)->interact(from, content, maillist);
+	// Add to maillist
+	maillist->push_back(ret);
 }
 
 void account::change_name(const std::string& str) {
