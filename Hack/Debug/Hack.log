@@ -1,9 +1,30 @@
-﻿Build started 012515 22:58:44.
-     1>Project "D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Hack\Hack.vcxproj" on node 2 (Build target(s)).
+﻿Build started 012715 12:59:27.
+     1>Project "D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Hack\Hack.vcxproj" on node 2 (Rebuild target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppClean.targets(76,5): warning : The process cannot access the file 'd:\skydrive\documents\_computer science\c++\files on github\hack\hack\debug\vc120.idb' because it is being used by another process.
      1>ClCompile:
-         D:\Application\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Hack.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt game_core.cpp
+         D:\Application\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\Hack.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         D:\Application\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Hack.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt account.cpp chatroom.cpp command_catalog.cpp dialog.cpp game_core.cpp Hack.cpp inbox.cpp mail.cpp mailbox.cpp menu.cpp outbox.cpp plugin.cpp surveilant.cpp sys.cpp task_menu.cpp tracker.cpp
+         tracker.cpp
+         task_menu.cpp
+         sys.cpp
+         surveilant.cpp
+         plugin.cpp
+         outbox.cpp
+         menu.cpp
+         mailbox.cpp
+         mail.cpp
+         inbox.cpp
+         Hack.cpp
          game_core.cpp
-     1>d:\skydrive\documents\_computer science\c++\files on github\hack\hack\game_core.cpp(1000): warning C4101: 'e' : unreferenced local variable
+     1>d:\skydrive\documents\_computer science\c++\files on github\hack\hack\game_core.cpp(1040): warning C4101: 'e' : unreferenced local variable
+         dialog.cpp
+     1>d:\skydrive\documents\_computer science\c++\files on github\hack\hack\dialog.cpp(1033): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+         command_catalog.cpp
+         chatroom.cpp
+         account.cpp
+     1>d:\skydrive\documents\_computer science\c++\files on github\hack\hack\account.cpp(53): warning C4101: 'e' : unreferenced local variable
+         Generating Code...
        Link:
          D:\Application\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.lib" /MACHINE:X86 Debug\account.obj
          Debug\chatroom.obj
@@ -23,8 +44,8 @@
          Debug\task_menu.obj
          Debug\tracker.obj
          Hack.vcxproj -> D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.exe
-     1>Done Building Project "D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Hack\Hack.vcxproj" (Build target(s)).
+     1>Done Building Project "D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Hack\Hack.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.09
+Time Elapsed 00:00:13.69

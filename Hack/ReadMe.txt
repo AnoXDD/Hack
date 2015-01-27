@@ -9,3 +9,9 @@ Currently this game has finished its first episode.
 I would like to add tab autocomplete to make the command run faster. I tried GNUWin32 but it did not work for me (readline5.dll is something wrong, probably incompatibility of c and cpp). I am not sure if I will write its sequel.
 
 This game started 020814, everything written and designed by Anoxic. All rights reserved.
+
+========================================================================
+						KNOWN BUGS
+========================================================================
+
+1. When reloading the game the old status of mails (or any other things that promised) is not loaded

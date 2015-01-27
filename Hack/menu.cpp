@@ -17,6 +17,13 @@ using namespace dialog;
 
 /*	*	*	*	*	*	PRIVATE FUNCTION	*	*	*	*	*	*/ 
 
+void menu::act(const std::string& name, const std::string& para) {
+	// User prompts quit the game
+	if (name == "exit") {
+
+	}
+}
+
 void menu::display_help() {
 	prompt_info(info::HELP_FILE_HEADER);
 	// Display two basic help menu

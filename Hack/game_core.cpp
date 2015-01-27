@@ -28,6 +28,7 @@
 
 // xxx yet to be defined
 const int game_core::MAX_LEVEL = 46;
+const int game_core::QUIT = 100;
 const int game_core::SLEEP_DELAY = 300;
 
 /*	*	*	*	*	*	PRIVATE FUNCTIONS	*	*	*	*	*	*/
@@ -783,9 +784,43 @@ void game_core::inc_level() {
 	++level;
 }
 
+bool game_core::game_init() {
+	if (util::read_file(dialog::info::ARCHIVE_FILE_NAME) != "") {
+		// No one wants to give up their game progress
+		while (true) {
+			prompt_info(dialog::info::LOAD_GAME_PROMPT);
+			if (prompt_input() == "y") {
+				prompt_info(dialog::info::LOAD_GAME_PROCESSING);
+				if (load()) {
+					prompt_info(dialog::info::LOAD_GAME_SUCCESS);
+					return true;
+				} else {
+					prompt_abortion(dialog::abortion::LOAD_GAME_FAILED);
+					// Rename the archive file for debug 
+					rename(dialog::info::ARCHIVE_FILE_NAME.c_str(), dialog::info::ARCHIVE_FILE_NAME_DEBUG.c_str());
+					// Delete the archive file, if remove above fails, I don't care
+					remove(dialog::info::ARCHIVE_FILE_NAME.c_str());
+					return false;
+				}
+			} else {
+				// The user doesn't want to load the file, ask for confirmation
+				prompt_info(dialog::info::LOAD_GAME_ABORT_CONFIRM);
+				// If user inputs "y", this loop will exit
+				if (prompt_input() == "y") {
+					prompt_plain("\n");
+					return false;
+				}
+				// Else the loop start over
+			}
+		}
+	} else {
+		return false;
+	}
+}
+
 void game_core::init() {
 	level = -1;
-	
+
 	dialog::counter::set_cmd_line_val(0);
 
 	maillist = new std::vector < menu* >();
@@ -798,6 +833,8 @@ void game_core::init() {
 	main_outbox = new outbox(main_menu, "Outbox");
 	story_line = new tracker(main_menu, level);
 	((tracker*) story_line)->refresh();
+	exit = new menu(main_menu, "Logout");
+	exit_dummy = new menu(exit);
 
 	comm = new sys(main_menu, "COMM");
 	comm->set_access_ID("705F5");
@@ -835,6 +872,9 @@ void game_core::init() {
 	main_menu->add_cmd("outbox", main_outbox);
 	main_menu->add_cmd("plugin", extension);
 	main_menu->add_cmd("story", story_line);
+	main_menu->add_cmd("logout", exit);
+
+	exit->add_cmd("", exit_dummy);
 
 	// Easter egg added!
 	comm->add_cmd("Anoxic", Pluto);
@@ -927,15 +967,15 @@ bool game_core::load() {
 	// Start silent input to avoid screen spam
 	dialog::print_control::silent_print = true;
 	std::string::size_type index = 0;
+	int lines;
 	try {
 		// Level
 		index = arch.find_first_of("|");
 		int level = atoi(arch.substr(0, index).c_str());
 		this->advance_to(level);
 		// Lines
-		int lines = atoi(arch.substr(index + 2, arch.find_first_of("|", index + 1)-2).c_str());
+		lines = atoi(arch.substr(index + 2, arch.find_first_of("|", index + 1) - 2).c_str());
 		index = arch.find_first_of("|", index + 1);
-		dialog::counter::set_cmd_line_val(lines);
 		// Plugins
 		int i = index + 1;
 		index = arch.find_first_of("|", index + 1);
@@ -1003,7 +1043,23 @@ bool game_core::load() {
 		return false;
 	}
 	dialog::print_control::silent_print = false;
+	// This is to do at the last of the function to overwrite previous save() that causes lines to reset
+	dialog::counter::set_cmd_line_val(lines);
+	save();
 	return true;
+}
+
+int game_core::quit() {
+	prompt_info(dialog::info::QUIT_GAME_PROMPT);
+	std::string ret = prompt_input();
+	if (ret == "y") {
+		// User wants to save and quit the game
+		// The archive file should already be archived at the check point. This prompt is a placebo.
+		prompt_info(dialog::info::QUIT_GAME_SUCCESS);
+		return game_core::QUIT;
+	} else {
+		return this->level;
+	}
 }
 
 const std::string game_core::decrypt(const std::string& str) {
@@ -1137,40 +1193,7 @@ void game_core::advance_to(int lev) {
 
 void game_core::start_game() {
 	// Test if loading the game available
-	/* If load succeeds, flag then equals true*/
-	bool loaded = false;
-	if (util::read_file(dialog::info::ARCHIVE_FILE_NAME) != "") {
-		// No one wants to give up their game progress
-		while (true) {
-			prompt_info(dialog::info::LOAD_GAME_PROMPT);
-			if (prompt_input()== "y") {
-				prompt_info(dialog::info::LOAD_GAME_PROCESSING);
-				if (load()) {
-					prompt_info(dialog::info::LOAD_GAME_SUCCESS);
-					loaded = true;
-					break;
-				} else {
-					prompt_abortion(dialog::abortion::LOAD_GAME_FAILED);
-					// Rename the archive file for debug 
-					rename(dialog::info::ARCHIVE_FILE_NAME.c_str(), dialog::info::ARCHIVE_FILE_NAME_DEBUG.c_str());
-					// Delete the archive file, if remove above fails, I don't care
-					remove(dialog::info::ARCHIVE_FILE_NAME.c_str());
-					loaded = false;
-					break;
-				}
-			} else {
-				// The user doesn't want to load the file, ask for confirmation
-				prompt_info(dialog::info::LOAD_GAME_ABORT_CONFIRM);
-				// If user inputs "y", this loop will exit
-				if (prompt_input() == "y") {
-					prompt_plain("\n");
-					loaded = false;
-					break;
-				}
-				// Else the loop start over
-			}
-		}
-	}
+	bool loaded = this->game_init();
 	if (!loaded) {
 		// Start a new game
 		this->init();
@@ -1190,6 +1213,18 @@ void game_core::start_game() {
 		// Authentiacte plugin
 		if (authenticate(tmp))
 			current = tmp;
+		// Test if user wants to exit
+		if (tmp == exit) {
+			int status = this->quit();
+			if (status != game_core::QUIT)
+				// User aborts or save fails
+				current = main_menu;
+			else
+				// Assign the status to level to terminate the game
+				level = status;
+		}
 	}
-	this->outro();
+	// Test if user successfully quits the game
+	if (level != game_core::QUIT)
+		this->outro();
 }

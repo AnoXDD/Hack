@@ -35,7 +35,7 @@ class menu {
 	 This function is called only if it passes the check in enter(), i.e. the params are legal. Then enter() will pass exactly the same params to this function
 	 The programmer can customize any effect if the players enter any submenu, but ATTENTION: IT SHOULD ONLY CALL THE FUNCTION INSIDE THE CLASS. Anything that will trigger the development of the story is not considered to be a part of the code here
 	 */
-	virtual void act(const std::string&, const std::string& = "") {}
+	virtual void act(const std::string&, const std::string& = "");
 	/*
 	 To display a help menu
 	 This function is virtual so that class like "mailbox" can overwrite it

@@ -19,6 +19,8 @@ class game_core {
 	const static int MAX_LEVEL;
 	/* The time of freeze after each deplay (to make it real for internet connection) */
 	const static int SLEEP_DELAY;
+	/* The number to indicate that user has successfully save the game progress and want to quit */
+	const static int QUIT;
 	/* Current level */
 	int level;
 	/* Pointer to current menu displayed */
@@ -29,6 +31,9 @@ class game_core {
 	void develop_at(int lev);
 	/* Update story, will call develop_at(int) */
 	void inc_level();
+	/* Initialize the game, including loading the archive file */
+	bool game_init();
+	/* This is included in the construction function. Return if an archive file is loaded */
 	void init();
 	/* Introduce the basic instructions to the player */
 	void intro();
@@ -42,6 +47,10 @@ class game_core {
 	bool save();
 	/* Load the game. Return if loading is successful */
 	bool load();
+	/* Quit the game. 
+	 Return game_core:QUIT to indicate saving successful, current level to indicate failure
+	 */
+	int quit();
 	/* Decrypt the string */
 	const std::string decrypt(const std::string&);
 	/*
@@ -75,12 +84,16 @@ public:
 	/* MAIN MENU */
 	menu* main_menu;
 	menu* extension;
-	// inbox of the main menu
+	/* inbox of the main menu */
 	menu* main_inbox;
-	// outbox of the main menu
+	/* outbox of the main menu */
 	menu* main_outbox;
-	// Story line of the game
+	/* Story line of the game */
 	menu* story_line;
+	/* Save and exit */
+	menu* exit;
+	/* This a dummy menu that only stops returning when user enters "exit" */
+	menu* exit_dummy;
 
 	/* SYSTEM */
 	menu* comm;

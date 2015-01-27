@@ -57,6 +57,8 @@ namespace dialog {
 		"Specify a valid plugin ID to do so";
 	const std::string abortion::RETURN_NOT_ALLOWED =
 		"You cannot return to previous menu";
+	const std::string abortion::QUIT_GAME_FAIL =
+		"Cannot save the game; please check game directory and remove unnecessary files";
 	const std::string abortion::SURVEILANT_ENABLING_FAILED =
 		"Surveillance system cannot be enabled: core file impaired";
 	const std::string abortion::SURVEILANT_INVALID_PARAMETERS =
@@ -187,6 +189,10 @@ namespace dialog {
 		"Uninstalling plugin ...";
 	const std::string info::PLUGIN_UNINSTALLING_SUCCESSFUL =
 		"This plugin is removed from your adapter";
+	const std::string info::QUIT_GAME_PROMPT =
+		"Do you want to save the game progress? The game will read the archive files since your last triggered checkpoint the next time you run the game. Any operations after that will be discarded [y/n]: ";
+	const std::string info::QUIT_GAME_SUCCESS =
+		"Game progress archived. Goodbye. ";
 	const std::string info::QUESTIONS_AUTHENTICATION =
 		"Questions authentication required before reset";
 	const std::string info::QUESTIONS_AUTHENTICATION_PASSED =

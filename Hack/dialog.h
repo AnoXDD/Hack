@@ -59,6 +59,7 @@ namespace dialog {
 		const static std::string PLUGIN_MISSING;
 		const static std::string PLUGIN_MISSING_PARAMETER;
 		const static std::string RETURN_NOT_ALLOWED;
+		const static std::string QUIT_GAME_FAIL;
 		const static std::string SURVEILANT_ENABLING_FAILED;
 		const static std::string SURVEILANT_INVALID_PARAMETERS;
 		const static std::string SURVEILANT_THROTTLED;
@@ -127,6 +128,8 @@ namespace dialog {
 		const static std::string PLUGIN_UNINSTALLED;
 		const static std::string PLUGIN_UNINSTALLING;
 		const static std::string PLUGIN_UNINSTALLING_SUCCESSFUL;
+		const static std::string QUIT_GAME_PROMPT;
+		const static std::string QUIT_GAME_SUCCESS;
 		const static std::string QUESTIONS_AUTHENTICATION;
 		const static std::string QUESTIONS_AUTHENTICATION_PASSED;
 		const static std::string RETURN_TO_PREVIOUS;

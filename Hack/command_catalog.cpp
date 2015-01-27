@@ -22,6 +22,7 @@ void command_catalog::init() {
 	command["disable"] = "Disable surveillance system for someone or for all";
 	command["enable"] = "Enable surveillance system for all";
 	command["enter"] = "Enter the room";
+	command["logout"] = "Save and exit the game";
 	command["history"] = "Review the history";
 	command["inbox"] = "Enter mail inbox of this account";
 	command["install"] = "Install available plugins";
