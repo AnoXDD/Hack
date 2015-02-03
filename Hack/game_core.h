@@ -42,7 +42,7 @@ class game_core {
 
 	/* ***************** Game saving machanism ***************** */
 	/* A pointer to store the list of each mail */
-	std::vector<menu*>* maillist;
+	std::vector<menu**>* maillist;
 	/* Save the game. Return if saving is successful */
 	bool save();
 	/* Load the game. Return if loading is successful */

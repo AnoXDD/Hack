@@ -131,10 +131,10 @@ void account::entered() {
 	this->prompt_welcome();
 }
 
-void account::send(const std::string& to, const std::string& content, std::vector<menu*>* maillist) {
+void account::send(const std::string& to, const std::string& content, std::vector<menu**>* maillist) {
 	menu* ret = ((mailbox*) out)->interact(to, content, maillist);
 	// Add to maillist
-	maillist->push_back(ret);
+	maillist->push_back(&ret);
 	if (this->parent->has_cmd(to)) {
 		account* rec = (account*) this->parent->find_cmd(to)->second;
 		rec->receive(this->caption, content, maillist);
@@ -143,10 +143,10 @@ void account::send(const std::string& to, const std::string& content, std::vecto
 	}
 }
 
-void account::receive(const std::string& from, const std::string& content, std::vector<menu*>* maillist) {
+void account::receive(const std::string& from, const std::string& content, std::vector<menu**>* maillist) {
 	menu* ret = ((mailbox*) in)->interact(from, content, maillist);
 	// Add to maillist
-	maillist->push_back(ret);
+	maillist->push_back(&ret);
 }
 
 void account::change_name(const std::string& str) {

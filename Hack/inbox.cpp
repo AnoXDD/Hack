@@ -22,9 +22,9 @@ void inbox::init() {
 
 /*	*	*	*	*	*	PUBLIC FUNCTION	*	*	*	*	*	*/
 
-void inbox::interact(menu* m, std::vector<menu*>* maillist) {
+void inbox::interact(menu* m, std::vector<menu**>* maillist) {
 	// Add to maillist
-	maillist->push_back(m);
+	maillist->push_back(&m);
 	// Reply function is disabled by default
 	((mail*) m)->add_reply();
 	// Set read status
@@ -34,7 +34,7 @@ void inbox::interact(menu* m, std::vector<menu*>* maillist) {
 	this->add_cmd(std::make_pair(index_str, m));
 }
 
-menu* inbox::interact(const std::string& from, const std::string& content, std::vector<menu*>* maillist) {
+menu* inbox::interact(const std::string& from, const std::string& content, std::vector<menu**>* maillist) {
 	menu* m = this->generate_mail(this->parent->get_caption(), content, from);
 	// Format mail content
 	this->interact(m, maillist);
