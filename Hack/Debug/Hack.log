@@ -1,9 +1,29 @@
-﻿Build started 013015 12:33:52.
+﻿Build started 021115 14:17:59.
      1>Project "D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Hack\Hack.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Application\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Hack.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt game_core.cpp
+         D:\Application\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\Hack.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         D:\Application\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Hack.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Hack.cpp account.cpp chatroom.cpp command_catalog.cpp dialog.cpp game_core.cpp inbox.cpp mail.cpp mailbox.cpp menu.cpp outbox.cpp plugin.cpp surveilant.cpp sys.cpp task_menu.cpp tracker.cpp
+         tracker.cpp
+         task_menu.cpp
+         sys.cpp
+         surveilant.cpp
+         plugin.cpp
+         outbox.cpp
+         menu.cpp
+         mailbox.cpp
+         mail.cpp
+         inbox.cpp
          game_core.cpp
      1>d:\skydrive\documents\_computer science\c++\files on github\hack\hack\game_core.cpp(1040): warning C4101: 'e' : unreferenced local variable
+         dialog.cpp
+     1>d:\skydrive\documents\_computer science\c++\files on github\hack\hack\dialog.cpp(1033): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+         command_catalog.cpp
+         chatroom.cpp
+         account.cpp
+     1>d:\skydrive\documents\_computer science\c++\files on github\hack\hack\account.cpp(53): warning C4101: 'e' : unreferenced local variable
+         Hack.cpp
+         Generating Code...
        Link:
          D:\Application\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\SkyDrive\Documents\_Computer Science\C++\Files on Github\Hack\Debug\Hack.lib" /MACHINE:X86 Debug\account.obj
          Debug\chatroom.obj
@@ -27,4 +47,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.40
+Time Elapsed 00:00:29.03

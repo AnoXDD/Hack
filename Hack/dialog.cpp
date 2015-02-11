@@ -190,7 +190,7 @@ namespace dialog {
 	const std::string info::PLUGIN_UNINSTALLING_SUCCESSFUL =
 		"This plugin is removed from your adapter";
 	const std::string info::QUIT_GAME_PROMPT =
-		"Do you want to save the game progress? The game will read the archive files since your last triggered checkpoint the next time you run the game. Any operations after that will be discarded [y/n]: ";
+		"Do you want to exit? The game will read the archive files since your last triggered checkpoint the next time you run the game. Any operations after that will be discarded [y/n]: ";
 	const std::string info::QUIT_GAME_SUCCESS =
 		"Game progress archived. Goodbye. ";
 	const std::string info::QUESTIONS_AUTHENTICATION =

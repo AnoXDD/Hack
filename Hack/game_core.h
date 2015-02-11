@@ -42,36 +42,36 @@ class game_core {
 
 	/* ***************** Game saving machanism ***************** */
 	/* A pointer to store the list of each mail */
-	std::vector<menu**>* maillist;
+	menu::maillist_vector* maillist;
 	/* Save the game. Return if saving is successful */
 	bool save();
 	/* Load the game. Return if loading is successful */
 	bool load();
-	/* Quit the game. 
+	/* Quit the game.
 	 Return game_core:QUIT to indicate saving successful, current level to indicate failure
 	 */
 	int quit();
 	/* Decrypt the string */
 	const std::string decrypt(const std::string&);
 	/*
-	 Encrypt the string 
+	 Encrypt the string
 	 The encryption uses XOR. The key is to be generated randomly, and located at the first character of the encrypted string returned.
 	 */
 	const std::string encrypt(const std::string&, char);
-	/* 
+	/*
 	 Wrap up all the progress that can be saved
-	 Include: 
-	   1) level,
-	   2) how many lines have been printed so far, 
-	   3) status of plugins, 
-	   4) read, time and attachment status of every mail
+	 Include:
+	 1) level,
+	 2) how many lines have been printed so far,
+	 3) status of plugins,
+	 4) read, time and attachment status of every mail
 	 */
 	const std::string archive();
 
-	/* 
-	 Utility function. Split one string into two by its first space (" ") 
+	/*
+	 Utility function. Split one string into two by its first space (" ")
 	 @Return: A pair of split strings if space exists.
-	          Else a pair of string, in which the first element is the original string, and the second element is an empty string
+	 Else a pair of string, in which the first element is the original string, and the second element is an empty string
 	 */
 	std::pair<std::string, std::string> split(const std::string&);
 	/*

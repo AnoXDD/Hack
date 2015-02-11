@@ -83,7 +83,7 @@ public:
 	 Interact with someone: send or receive letters 
 	 The index will finally be incremented in mailbox::interact(menu* m)
 	 */
-	virtual void interact(menu* m, std::vector<menu**>* maillist) = 0;
-	virtual menu* interact(const std::string& who, const std::string& content, std::vector<menu**>* maillist) = 0;
+	virtual void interact(menu* m, menu::maillist_vector* maillist) = 0;
+	virtual menu* interact(const std::string& who, const std::string& content, menu::maillist_vector* maillist) = 0;
 };
 

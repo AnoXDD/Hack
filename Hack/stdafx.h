@@ -9,7 +9,7 @@
 
 #include <tchar.h>
 
-#define DEBUG_MODE true
+#define DEBUG_MODE false
 
 
 // TODO: reference additional headers your program requires here

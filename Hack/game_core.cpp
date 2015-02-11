@@ -823,7 +823,7 @@ void game_core::init() {
 
 	dialog::counter::set_cmd_line_val(0);
 
-	maillist = new std::vector < menu** >();
+	maillist = new std::vector<menu*>();
 
 	main_menu = new menu("Mino");
 	main_menu->set_info(dialog::info::ADAPTER_HEADER);
@@ -1004,7 +1004,7 @@ bool game_core::load() {
 			// Plugin is uninstalled by default
 		}
 		// Mail, iterate till the end of the file
-		std::vector<menu**>::iterator it = maillist->begin();
+		menu::maillist_vector::iterator it = maillist->begin();
 		do {
 			// Read status
 			char ch = arch[++index];
@@ -1027,9 +1027,9 @@ bool game_core::load() {
 			attachment = arch.substr(i + 1, index);
 			int attach_val = atoi(attachment.c_str());
 			// Process the mail in maillist
-			((mail*) **it)->set_read(flag);
-			((mail*) **it)->set_timestamp(time_stamp);
-			if (!((mail*) **it)->set_attachment(attach_val)) {
+			((mail*) *it)->set_read(flag);
+			((mail*) *it)->set_timestamp(time_stamp);
+			if (!((mail*) *it)->set_attachment(attach_val)) {
 				// Invalid attachment index
 				dialog::print_control::silent_print = false;
 				return false;
@@ -1096,15 +1096,15 @@ const std::string game_core::archive() {
 		ret += (it->second) ? "1" : "0";
 	}
 	// Mail
-	for (std::vector<menu**>::iterator it = maillist->begin(); it != maillist->end(); ++it) {
+	for (menu::maillist_vector::iterator it = maillist->begin(); it != maillist->end(); ++it) {
 		// Separator, so that the end of file won't have it
 		ret += "|";
 		// Read status
-		ret += ((mail*) **it)->is_read() ? "1" : "0";
+		ret += ((mail*) *it)->is_read() ? "1" : "0";
 		// Timestamp
-		ret += "'" + ((mail*) **it)->get_timestamp() + "'";
+		ret += "'" + ((mail*) *it)->get_timestamp() + "'";
 		// Attachment
-		ret += std::to_string(((mail*) **it)->get_attachment());
+		ret += std::to_string(((mail*) *it)->get_attachment());
 	}
 	return ret;
 }

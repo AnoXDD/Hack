@@ -46,3 +46,4 @@ Here are only listed a rough introductions of each class. For more information, 
 		The most basic and one of the most important submenus in the game. 
 		It is an email transmitting two accounts. When the sender generates one in his mailbox, a copy of another email will be generated (but not the same thing) in the recipient's mailbox. 
 		The reply and the detail function is used for some trigger.
+

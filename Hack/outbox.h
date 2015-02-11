@@ -20,11 +20,11 @@ public:
 	~outbox() {}
 
 	/* Send a "mail" passed as a param */
-	void interact(menu* m, std::vector<menu**>* maillist);
+	void interact(menu* m, menu::maillist_vector* maillist);
 	/*
 	 Send a letter from others; auto-format
 	 */
-	menu* interact(const std::string& who, const std::string& content, std::vector<menu**>* maillist);
+	menu* interact(const std::string& who, const std::string& content, menu::maillist_vector* maillist);
 	/*
 	Refresh the mailbox
 	If any major changes occur, do not forget to make corresponding changes to another "mailbox"

@@ -81,6 +81,12 @@ protected:
 public:
 	typedef std::map<std::string, menu*> menu_map;
 	typedef std::map<std::string, std::string> para_map;
+	/*
+	 This is to be changed for debugging 
+	 Please be noted that after change this several errors may still occur
+	 Major changes are in game_core.cpp, watch for compiler-undetectable errors!!!
+	 */
+	typedef std::vector<menu*> maillist_vector;
 protected:
 	menu_map cmd;
 	para_map para;
