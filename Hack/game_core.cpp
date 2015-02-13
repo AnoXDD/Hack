@@ -100,7 +100,7 @@ void game_core::act() {
 			break;
 		case 8:
 			if (current == main_menu) {
-				// Fizz's account locked
+				// Split's account locked
 				if (Split->get_desc() == dialog::abortion::ACCOUNT_ACCESS_DENIED_ERROR_LOCKED) {
 					inc_level();
 				}
@@ -477,6 +477,10 @@ void game_core::develop_at(int lev) {
 			// New character appears
 			maco->add_cmd("Echo", Echo);
 			((account*) Echo)->send("Foxtrot", dialog::mail::CONTENTS[8], maillist);
+			// Manually stop Split locking system
+			((account*) Split)->set_reset_lim(0);
+			// Change the password
+			maco->add_para("Split", "password");
 			break;
 		}
 		case 9: {
@@ -499,6 +503,8 @@ void game_core::develop_at(int lev) {
 			((mail*) new_mail)->set_sender(dialog::info::ADDRESS_UNDEFINED);
 			// Remove reply
 			((mail*) new_mail)->remove_reply();
+			// Manually lock the chatroom (for archiving system)
+			((chatroom*) chat)->lock();
 			break;
 		}
 		case 12: {

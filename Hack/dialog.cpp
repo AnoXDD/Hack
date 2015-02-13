@@ -654,6 +654,7 @@ namespace dialog {
 	const std::string story::ID_ECHO = "537029334971829573378924715890";
 	const std::string story::ID_FOXTROT = "074564862517781080253407476153";
 	const std::string story::LOG_NEW =
+		"---FOR SECURITY, IDs ARE NOT DISPLAYED COMPLETELY---"
 		"[Time]\t[Op.]\t[ID]\n"
 		"000.902\tEnabled\t*276752487484213957459883000*\n"
 		"001.007\tEnabled\t*313014111451997885950027234*\n"

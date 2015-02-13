@@ -33,3 +33,10 @@ Todo: exit + save (still debugging)
 012615
 Todo: add exit menu
 	Idea: create a new class. Everytime in the loop of start_game(), check if its exiting status. If (exit_status) {exit_lopp;} And switch (exit_status) correspondingly change outro (game over or save the game)
+
+=============================================================
+
+V1.0.0 Released
+Surveilence system - hint added
+Fix: chatroom reloaded after the game restarts
+Fix: Split's account will be relocked after the game restarts

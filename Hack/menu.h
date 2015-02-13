@@ -196,7 +196,8 @@ public:
 	menu_map::iterator find_cmd(const std::string& key) {
 		return cmd.find(key);
 	}
-
+	
+	/* This function can also change the value of this parameter */
 	void add_para(const std::string& str1, const std::string& str2) {
 		para[str1] = str2;
 	}

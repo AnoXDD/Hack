@@ -27,7 +27,7 @@ void chatroom::act(const std::string& name, const std::string& para) {
 				// Wait for next message
 				Sleep(*it2);
 			}
-			status++;
+			status = LOCK_STATUS;
 			// Change the permission to access
 			enter->set_info(dialog::info::CHATROOM_ACCESS_DENIED);
 			// Change the history of chatroom
